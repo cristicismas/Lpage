@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../contexts';
 import { THEMES } from '../constants/themes';
+import { URLS } from '../constants/urls';
 import '../css/App.css';
 
 import SearchBar from './SearchBar';
@@ -16,7 +17,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      theme: THEMES.DARK
+      theme: THEMES.DARK,
+      engineSearchUrl: URLS.GOOGLE
     };
 
     this.toggleTheme = this.toggleTheme.bind(this);
@@ -29,12 +31,12 @@ class App extends Component {
   }
 
   render() {
-    const { theme } = this.state;
+    const { theme, engineSearchUrl } = this.state;
 
     return (
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <ThemedApp theme={theme} id="app">
-          <SearchBar />
+          <SearchBar searchUrl={engineSearchUrl} />
           <ThemeSwitch theme={theme} />
         </ThemedApp>
       </ThemeContext.Provider>
