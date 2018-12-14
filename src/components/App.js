@@ -37,7 +37,7 @@ class App extends Component {
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <ThemedApp theme={theme} id="app">
           <SearchBar searchUrl={engineSearchUrl} />
-          <ThemeSwitch theme={theme} />
+          <ThemeSwitch />
         </ThemedApp>
       </ThemeContext.Provider>
     );
