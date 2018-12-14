@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { ICONS } from '../constants/icons';
 import { THEMES } from '../constants/themes';
+import { URLS } from '../constants/urls';
 import { ThemeContext } from '../contexts';
 import '../css/SearchBar.css';
 
@@ -20,7 +21,7 @@ class SearchBar extends Component {
     const query = searchBar.value;
 
     // Open query in a new window.
-    const queryResults = window.open(`http://google.com/search?q=${query}`, '_blank');
+    const queryResults = window.open(URLS.DUCKDUCKGO + query, '_blank');
 
     if (queryResults) {
       //Browser has allowed it to be opened
