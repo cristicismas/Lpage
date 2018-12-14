@@ -1,0 +1,17 @@
+#search-bar-container {
+  position: absolute;
+  left: 50%;
+  top: 150px;
+  transform: translateX(-50%);
+}
+
+#search-bar-container #search-bar {
+  padding: 15px 25px;
+  width: 400px;
+  border: 1px solid #999;
+}
+
+#search-bar-container #search-icon {
+  position: relative;
+  right: 30px;
+}

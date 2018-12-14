@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../contexts';
+import { THEMES } from '../constants/themes';
 import '../css/App.css';
 
-import { THEMES } from '../constants/themes';
+import SearchBar from './SearchBar';
 import ThemeSwitch from './ThemeSwitch';
 
 const ThemedApp = styled.div`
@@ -33,6 +34,7 @@ class App extends Component {
     return (
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <ThemedApp theme={theme} id="app">
+          <SearchBar />
           <ThemeSwitch theme={theme} />
         </ThemedApp>
       </ThemeContext.Provider>
