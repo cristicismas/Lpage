@@ -12,6 +12,7 @@
 }
 
 #search-bar-container #search-icon {
-  position: relative;
-  right: 30px;
+  position: absolute;
+  right: 10px;
+  top: 13px;
 }
