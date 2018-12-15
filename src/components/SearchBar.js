@@ -24,11 +24,10 @@ class SearchBar extends Component {
     // Open query in a new window.
     const queryResults = window.open(searchUrl + query, '_blank');
 
+    // Focus the new window
     if (queryResults) {
-      //Browser has allowed it to be opened
       queryResults.focus();
     } else {
-      //Browser has blocked it
       alert('Please allow popups for this website.');
     }
 
