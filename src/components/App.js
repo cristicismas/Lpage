@@ -5,6 +5,7 @@ import { THEMES } from '../constants/themes';
 import { URLS } from '../constants/urls';
 import '../css/App.css';
 
+import Options from './Options';
 import SearchBar from './SearchBar';
 import ThemeSwitch from './ThemeSwitch';
 
@@ -36,6 +37,7 @@ class App extends Component {
     return (
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <ThemedApp theme={theme} id="app">
+          <Options />
           <SearchBar searchUrl={engineSearchUrl} />
           <ThemeSwitch />
         </ThemedApp>
