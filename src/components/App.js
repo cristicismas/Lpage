@@ -17,8 +17,10 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    const defaultTheme = localStorage.getItem('theme');
+
     this.state = {
-      theme: THEMES.DARK,
+      theme: defaultTheme === THEMES.LIGHT ? THEMES.LIGHT : THEMES.DARK,
       engineSearchUrl: URLS.GOOGLE
     };
 
@@ -28,7 +30,9 @@ class App extends Component {
   toggleTheme() {
     this.setState(state => ({
       theme: state.theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
-    }));
+    }), () => {
+      localStorage.setItem('theme', this.state.theme);
+    });
   }
 
   render() {
