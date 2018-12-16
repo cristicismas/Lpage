@@ -4,6 +4,8 @@ import { THEMES } from '../constants/themes';
 import { ThemeContext } from '../contexts';
 import '../css/Options.css';
 
+import SearchEngine from './SearchEngine';
+
 const MenuItem = styled.div`
   color: ${props => (props.theme === THEMES.DARK ? '#eee' : '#333')};
 `;
@@ -19,6 +21,7 @@ const Menu = styled.ul`
 class Options extends Component {
   render() {
     const { theme } = this.context;
+    const { engineUrl } = this.props;
 
     return (
       <div id="options-menu">
@@ -30,19 +33,7 @@ class Options extends Component {
 
         <Menu id="menu" theme={theme}>
           <MenuItem className="menu-item" theme={theme}>
-            hey
-          </MenuItem>
-          <MenuItem className="menu-item" theme={theme}>
-            there
-          </MenuItem>
-          <MenuItem className="menu-item" theme={theme}>
-            how
-          </MenuItem>
-          <MenuItem className="menu-item" theme={theme}>
-            are
-          </MenuItem>
-          <MenuItem className="menu-item" theme={theme}>
-            you
+            <SearchEngine changeSearchEngine={this.props.changeSearchEngine} engineUrl={engineUrl} />
           </MenuItem>
         </Menu>
       </div>

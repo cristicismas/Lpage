@@ -18,20 +18,31 @@ class App extends Component {
     super(props);
 
     const defaultTheme = localStorage.getItem('theme');
+    const defaultSearchEngine = localStorage.getItem('searchEngine');
 
     this.state = {
       theme: defaultTheme === THEMES.LIGHT ? THEMES.LIGHT : THEMES.DARK,
-      engineSearchUrl: URLS.GOOGLE
+      engineSearchUrl: URLS[defaultSearchEngine] || URLS.GOOGLE
     };
 
     this.toggleTheme = this.toggleTheme.bind(this);
+    this.changeSearchEngine = this.changeSearchEngine.bind(this);
   }
 
   toggleTheme() {
-    this.setState(state => ({
-      theme: state.theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
-    }), () => {
-      localStorage.setItem('theme', this.state.theme);
+    this.setState(
+      state => ({
+        theme: state.theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
+      }),
+      () => {
+        localStorage.setItem('theme', this.state.theme);
+      }
+    );
+  }
+
+  changeSearchEngine(newEngine) {
+    this.setState({ engineSearchUrl: URLS[newEngine] }, () => {
+      localStorage.setItem('searchEngine', newEngine);
     });
   }
 
@@ -41,7 +52,7 @@ class App extends Component {
     return (
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <ThemedApp theme={theme} id="app">
-          <Options />
+          <Options changeSearchEngine={this.changeSearchEngine} engineUrl={engineSearchUrl} />
           <SearchBar searchUrl={engineSearchUrl} />
           <ThemeSwitch />
         </ThemedApp>
