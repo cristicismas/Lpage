@@ -16,8 +16,14 @@ class WebsitePanel extends Component {
     const { url, img } = this.props.website;
     const { theme } = this.context;
 
+    let formattedUrl = url;
+
+    if (!url.includes('https://')) {
+      formattedUrl = 'https://' + url;
+    }
+
     return (
-      <WebsiteLink className="panel" href={url} target="_blank" img={img} theme={theme}>
+      <WebsiteLink className="panel" href={formattedUrl} target="_blank" img={img} theme={theme}>
       </WebsiteLink>
     );
   }
