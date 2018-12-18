@@ -37,6 +37,7 @@ class AddFavoriteOverlay extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.addToFavorites(this.state);
+    this.props.closeOverlay();
   }
 
   handleChange(e) {
