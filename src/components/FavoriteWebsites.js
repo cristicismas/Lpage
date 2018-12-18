@@ -5,23 +5,28 @@ import { ThemeContext } from '../contexts';
 import '../css/FavoriteWebsites.css';
 
 import WebsitePanel from './WebsitePanel';
+import AddFavoriteOverlay from './AddFavoriteOverlay';
 
 const AddButton = styled.button`
-  color: ${props => props.theme === THEMES.DARK ? "#f5f5f5" : "#333"};
-  border: 2px solid ${props => props.theme === THEMES.DARK ? "#f5f5f5" : "#333"};;
+  color: ${props => (props.theme === THEMES.DARK ? '#f5f5f5' : '#333')};
+  border: 2px solid ${props => (props.theme === THEMES.DARK ? '#f5f5f5' : '#333')};
 `;
 
 class FavoriteWebsites extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showAddFavoriteOverlay: false
+    };
+  }
+
   render() {
+    const { showAddFavoriteOverlay } = this.state;
     const { favoriteWebsites } = this.props;
     const { theme } = this.context;
 
     const panels = favoriteWebsites.map((link, index) => <WebsitePanel website={link} key={link + index} />);
-
-    const newFavTemplate = {
-      url: 'https://www.reddit.com/',
-      img: 'https://marketingland.com/wp-content/ml-loads/2014/07/reddit-combo-1920-800x450.png'
-    };
 
     return (
       <div id="favorites">
@@ -29,9 +34,17 @@ class FavoriteWebsites extends Component {
         <AddButton
           className="add-to-favorites-btn"
           theme={theme}
-          onClick={() => this.props.addToFavorites(newFavTemplate)}>
+          onClick={() => this.setState({ showAddFavoriteOverlay: true })}>
           &#43;
         </AddButton>
+
+        {showAddFavoriteOverlay ? (
+          <AddFavoriteOverlay
+            addToFavorites={this.props.addToFavorites}
+            theme={theme}
+            closeOverlay={() => this.setState({ showAddFavoriteOverlay: false })}
+          />
+        ) : null}
       </div>
     );
   }

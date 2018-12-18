@@ -65,7 +65,7 @@ class App extends Component {
 
   addToFavorites(newFavorite) {
     const { favoriteWebsites } = this.state;
-
+    
     this.setState({ favoriteWebsites: [...favoriteWebsites, newFavorite] }, () => {
       localStorage.setItem('favoriteWebsites', JSON.stringify([...favoriteWebsites, newFavorite]));
     });
