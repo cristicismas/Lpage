@@ -13,9 +13,13 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const defaultTheme = localStorage.getItem('theme') === THEMES.LIGHT ? THEMES.LIGHT : THEMES.DARK;
+    const defaultTheme =
+      localStorage.getItem('theme') === THEMES.LIGHT
+        ? THEMES.LIGHT
+        : THEMES.DARK;
 
-    const engineSearchUrl = URLS[localStorage.getItem('searchEngine')] || URLS.GOOGLE;
+    const engineSearchUrl =
+      URLS[localStorage.getItem('searchEngine')] || URLS.GOOGLE;
 
     const favoriteWebsites = localStorage.getItem('favoriteWebsites')
       ? JSON.parse(localStorage.getItem('favoriteWebsites'))
@@ -24,7 +28,8 @@ class App extends Component {
     this.state = {
       theme: defaultTheme,
       engineSearchUrl: engineSearchUrl,
-      favoriteWebsites: favoriteWebsites
+      favoriteWebsites: favoriteWebsites,
+      keysPressed: []
     };
 
     this.toggleTheme = this.toggleTheme.bind(this);
@@ -33,16 +38,38 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { theme } = this.state;
+    const { theme, keysPressed } = this.state;
 
-    document.body.style.background = theme === THEMES.DARK ? "#333" : "#eee";
+    document.addEventListener('keydown', e => {
+      if (e.keyCode === 17 || e.keyCode === 88) {
+        this.setState({
+          keysPressed: keysPressed.push(e.keyCode)
+        }, () => {
+          if (keysPressed.includes(17) && keysPressed.includes(88)) {
+            document.getElementById('search-bar').focus();
+          }
+        });
+      }
+    });
+
+    document.addEventListener('keyup', e => {
+      if (e.keyCode === 17 || e.keyCode === 88) {
+        const keyIndex = keysPressed.indexOf(e.keyCode);
+
+        this.setState({
+          keysPressed: keysPressed.splice(keyIndex, 1)
+        });
+      }
+    });
+
+    document.body.style.background = theme === THEMES.DARK ? '#333' : '#eee';
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { theme } = this.state;
 
     if (prevState.theme !== theme) {
-      document.body.style.background = theme === THEMES.DARK ? "#333" : "#eee";
+      document.body.style.background = theme === THEMES.DARK ? '#333' : '#eee';
     }
   }
 
@@ -65,10 +92,16 @@ class App extends Component {
 
   addToFavorites(newFavorite) {
     const { favoriteWebsites } = this.state;
-    
-    this.setState({ favoriteWebsites: [...favoriteWebsites, newFavorite] }, () => {
-      localStorage.setItem('favoriteWebsites', JSON.stringify([...favoriteWebsites, newFavorite]));
-    });
+
+    this.setState(
+      { favoriteWebsites: [...favoriteWebsites, newFavorite] },
+      () => {
+        localStorage.setItem(
+          'favoriteWebsites',
+          JSON.stringify([...favoriteWebsites, newFavorite])
+        );
+      }
+    );
   }
 
   render() {
@@ -76,11 +109,17 @@ class App extends Component {
 
     return (
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
-        <div id="app">
-          <Options changeSearchEngine={this.changeSearchEngine} engineUrl={engineSearchUrl} />
+        <div id='app'>
+          <Options
+            changeSearchEngine={this.changeSearchEngine}
+            engineUrl={engineSearchUrl}
+          />
           <SearchBar searchUrl={engineSearchUrl} />
           <ThemeSwitch />
-          <FavoriteWebsites favoriteWebsites={favoriteWebsites} addToFavorites={this.addToFavorites} />
+          <FavoriteWebsites
+            favoriteWebsites={favoriteWebsites}
+            addToFavorites={this.addToFavorites}
+          />
         </div>
       </ThemeContext.Provider>
     );

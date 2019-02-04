@@ -13,6 +13,10 @@ const Bar = styled.input`
 `;
 
 class SearchBar extends Component {
+  componentDidMount() {
+    document.getElementById('search-bar').focus();
+  }
+
   handleSubmit(e) {
     e.preventDefault();
 
