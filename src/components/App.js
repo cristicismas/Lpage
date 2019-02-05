@@ -35,6 +35,7 @@ class App extends Component {
     this.toggleTheme = this.toggleTheme.bind(this);
     this.changeSearchEngine = this.changeSearchEngine.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
+    this.removeFromFavorites = this.removeFromFavorites.bind(this);
   }
 
   componentDidMount() {
@@ -104,6 +105,22 @@ class App extends Component {
     );
   }
 
+  removeFromFavorites(index) {
+    let { favoriteWebsites } = this.state;
+
+    favoriteWebsites.splice(index, 1);
+
+    this.setState(
+      { favoriteWebsites },
+      () => {
+        localStorage.setItem(
+          'favoriteWebsites',
+          JSON.stringify(favoriteWebsites)
+        );
+      }
+    );
+  }
+
   render() {
     const { theme, engineSearchUrl, favoriteWebsites } = this.state;
 
@@ -119,6 +136,7 @@ class App extends Component {
           <FavoriteWebsites
             favoriteWebsites={favoriteWebsites}
             addToFavorites={this.addToFavorites}
+            removeFromFavorites={this.removeFromFavorites}
           />
         </div>
       </ThemeContext.Provider>

@@ -9,7 +9,8 @@ import AddFavoriteOverlay from './AddFavoriteOverlay';
 
 const AddButton = styled.button`
   color: ${props => (props.theme === THEMES.DARK ? '#f5f5f5' : '#333')};
-  border: 2px solid ${props => (props.theme === THEMES.DARK ? '#f5f5f5' : '#333')};
+  border: 2px solid
+    ${props => (props.theme === THEMES.DARK ? '#f5f5f5' : '#333')};
 `;
 
 class FavoriteWebsites extends Component {
@@ -26,15 +27,23 @@ class FavoriteWebsites extends Component {
     const { favoriteWebsites } = this.props;
     const { theme } = this.context;
 
-    const panels = favoriteWebsites.map((link, index) => <WebsitePanel website={link} key={link + index} />);
+    const panels = favoriteWebsites.map((link, index) => (
+      <WebsitePanel
+        website={link}
+        key={link + index}
+        removeFromFavorites={this.props.removeFromFavorites}
+        panelIndex={index}
+      />
+    ));
 
     return (
-      <div id="favorites">
-        <div id="favorites-list">{panels}</div>
+      <div id='favorites'>
+        <div id='favorites-list'>{panels}</div>
         <AddButton
-          className="add-to-favorites-btn"
+          className='add-to-favorites-btn'
           theme={theme}
-          onClick={() => this.setState({ showAddFavoriteOverlay: true })}>
+          onClick={() => this.setState({ showAddFavoriteOverlay: true })}
+        >
           &#43;
         </AddButton>
 
@@ -42,7 +51,9 @@ class FavoriteWebsites extends Component {
           <AddFavoriteOverlay
             addToFavorites={this.props.addToFavorites}
             theme={theme}
-            closeOverlay={() => this.setState({ showAddFavoriteOverlay: false })}
+            closeOverlay={() =>
+              this.setState({ showAddFavoriteOverlay: false })
+            }
           />
         ) : null}
       </div>
