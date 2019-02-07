@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { THEMES } from '../constants/themes';
 import { ThemeContext } from '../contexts';
 import '../css/WebsitePanel.css';
+import { ICONS } from '../constants/icons';
+
+import FormOverlay from './FormOverlay';
+import Icon from './Icon';
 
 const WebsiteLink = styled.div`
   background-image: ${props => `url(${props.img})`};
@@ -13,6 +17,14 @@ const WebsiteLink = styled.div`
 `;
 
 class WebsitePanel extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showEditOverlay: false
+    };
+  }
+
   openLink(link) {
     window.open(link, '_blank');
   }
@@ -25,9 +37,17 @@ class WebsitePanel extends Component {
 
     this.props.removeFromFavorites(panelIndex);
   }
-  
+
+  editPanel(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    this.setState({ showEditOverlay: true });
+  }
+
   render() {
-    const { url, img } = this.props.website;
+    const { showEditOverlay } = this.state;
+    const { title, url, img } = this.props.website;
     const { theme } = this.context;
 
     let formattedUrl = url;
@@ -37,16 +57,38 @@ class WebsitePanel extends Component {
     }
 
     return (
-      <WebsiteLink
-        className='panel'
-        href={formattedUrl}
-        target='_blank'
-        img={img}
-        theme={theme}
-        onClick={() => this.openLink(formattedUrl)}
-      >
-        <button className='remove-panel' onClick={e => this.removePanel(e)}>&#x2715;</button>
-      </WebsiteLink>
+      <Fragment>
+        <WebsiteLink
+          className='panel'
+          href={formattedUrl}
+          target='_blank'
+          img={img}
+          theme={theme}
+          onClick={() => this.openLink(formattedUrl)}
+        >
+          <div className='buttons'>
+            <button className='edit-panel' onClick={e => this.editPanel(e)}>
+              <Icon icon={ICONS.EDIT} color='#f5f5f5' />
+            </button>
+            <button className='remove-panel' onClick={e => this.removePanel(e)}>
+              &#x2715;
+            </button>
+          </div>
+        </WebsiteLink>
+
+        {showEditOverlay ? (
+          <FormOverlay
+            formTitle='Edit Favorite'
+            ctaText='Submit'
+            handleForm={panel => this.props.editPanel(panel, this.props.panelIndex)}
+            theme={theme}
+            closeOverlay={() => this.setState({ showEditOverlay: false })}
+            title={title}
+            url={url}
+            img={img}
+          />
+        ) : null}
+      </Fragment>
     );
   }
 }

@@ -5,7 +5,7 @@ import { ThemeContext } from '../contexts';
 import '../css/FavoriteWebsites.css';
 
 import WebsitePanel from './WebsitePanel';
-import AddFavoriteOverlay from './AddFavoriteOverlay';
+import FormOverlay from './FormOverlay';
 
 const AddButton = styled.button`
   color: ${props => (props.theme === THEMES.DARK ? '#f5f5f5' : '#333')};
@@ -18,12 +18,12 @@ class FavoriteWebsites extends Component {
     super(props);
 
     this.state = {
-      showAddFavoriteOverlay: false
+      showFormOverlay: false
     };
   }
 
   render() {
-    const { showAddFavoriteOverlay } = this.state;
+    const { showFormOverlay } = this.state;
     const { favoriteWebsites } = this.props;
     const { theme } = this.context;
 
@@ -32,6 +32,7 @@ class FavoriteWebsites extends Component {
         website={link}
         key={link + index}
         removeFromFavorites={this.props.removeFromFavorites}
+        editPanel={this.props.editPanel}
         panelIndex={index}
       />
     ));
@@ -42,17 +43,19 @@ class FavoriteWebsites extends Component {
         <AddButton
           className='add-to-favorites-btn'
           theme={theme}
-          onClick={() => this.setState({ showAddFavoriteOverlay: true })}
+          onClick={() => this.setState({ showFormOverlay: true })}
         >
           &#43;
         </AddButton>
 
-        {showAddFavoriteOverlay ? (
-          <AddFavoriteOverlay
-            addToFavorites={this.props.addToFavorites}
+        {showFormOverlay ? (
+          <FormOverlay
+            formTitle='New Favorite'
+            ctaText='Add Website'
+            handleForm={this.props.addToFavorites}
             theme={theme}
             closeOverlay={() =>
-              this.setState({ showAddFavoriteOverlay: false })
+              this.setState({ showFormOverlay: false })
             }
           />
         ) : null}

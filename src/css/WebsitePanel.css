@@ -8,21 +8,37 @@
   margin: 20px;
 }
 
-.panel .remove-panel {
+.panel .buttons {
   position: absolute;
+  display: flex;
   right: 5px;
   top: 7px;
+}
+
+.panel .buttons > * {
   color: #f5f5f5;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 100%;
   background-color: transparent;
   height: 35px;
   width: 35px;
-  cursor: pointer;
-  border: none;
-  font-size: 20px;
-  border-radius: 100%;
 }
 
 .panel .remove-panel:hover {
   color: red;
   background-color: #f5f5f5;
+}
+
+.panel .edit-panel svg {
+  transform: scale(.8);
+}
+
+.panel .edit-panel:hover {
+  background-color: #f5f5f5;
+}
+
+.panel .edit-panel:hover svg path {
+  fill: #333 !important;
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { THEMES } from '../constants/themes';
-import '../css/AddFavoriteOverlay.css';
+import '../css/FormOverlay.css';
 
 const Form = styled.form`
   background-color: ${props => (props.theme === THEMES.DARK ? '#222' : '#ccc')};
@@ -20,14 +20,16 @@ const CloseOverlayBtn = styled.button`
   color: ${props => (props.theme === THEMES.DARK ? '#ccc' : '#333')};
 `;
 
-class AddFavoriteOverlay extends Component {
+class FormOverlay extends Component {
   constructor(props) {
     super(props);
 
+    const { img, title, url } = this.props;
+
     this.state = {
-      img: '',
-      title: '',
-      url: ''
+      img: img || '',
+      title: title || '',
+      url: url || ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +38,7 @@ class AddFavoriteOverlay extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.addToFavorites(this.state);
+    this.props.handleForm(this.state);
     this.props.closeOverlay();
   }
 
@@ -47,44 +49,46 @@ class AddFavoriteOverlay extends Component {
   }
 
   render() {
-    const { theme } = this.props;
+    const { img, title, url } = this.state;
+    const { theme, formTitle, ctaText } = this.props;
+    
     return (
       <div className="overlay">
         <Form className="add-favorite-form" onSubmit={this.handleSubmit} theme={theme}>
           <FormTitle theme={theme} className="form-title">
-            New Favorite
+            {formTitle}
           </FormTitle>
 
           <div className="form-group">
             <Label theme={theme} htmlFor="title">
               Website Title
             </Label>
-            <input type="text" required name="title" id="title-input" onChange={this.handleChange} />
+            <input type="text" required name="title" id="title-input" defaultValue={title} onChange={this.handleChange} />
           </div>
 
           <div className="form-group">
             <Label theme={theme} htmlFor="url">
               Website Url
             </Label>
-            <input type="text" required name="url" id="url-input" onChange={this.handleChange} />
+            <input type="text" required name="url" id="url-input" defaultValue={url} onChange={this.handleChange} />
           </div>
 
           <div className="form-group">
             <Label theme={theme} htmlFor="img">
               Image Url
             </Label>
-            <input type="text" required name="img" id="img-input" onChange={this.handleChange} />
+            <input type="text" required name="img" id="img-input" defaultValue={img} onChange={this.handleChange} />
           </div>
 
           <CloseOverlayBtn id="close-overlay-btn" theme={theme} onClick={() => this.props.closeOverlay()}>
             &#x2715;
           </CloseOverlayBtn>
 
-          <button type="submit">Add Website</button>
+          <button type="submit">{ctaText}</button>
         </Form>
       </div>
     );
   }
 }
 
-export default AddFavoriteOverlay;
+export default FormOverlay;

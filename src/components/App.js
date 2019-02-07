@@ -35,6 +35,7 @@ class App extends Component {
     this.toggleTheme = this.toggleTheme.bind(this);
     this.changeSearchEngine = this.changeSearchEngine.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
+    this.editPanel = this.editPanel.bind(this);
     this.removeFromFavorites = this.removeFromFavorites.bind(this);
   }
 
@@ -105,6 +106,22 @@ class App extends Component {
     );
   }
 
+  editPanel(panel, index) {
+    let { favoriteWebsites } = this.state;
+
+    favoriteWebsites[index] = panel;
+
+    this.setState(
+      { favoriteWebsites },
+      () => {
+        localStorage.setItem(
+          'favoriteWebsites',
+          JSON.stringify(favoriteWebsites)
+        );
+      }
+    );
+  }
+
   removeFromFavorites(index) {
     let { favoriteWebsites } = this.state;
 
@@ -136,6 +153,7 @@ class App extends Component {
           <FavoriteWebsites
             favoriteWebsites={favoriteWebsites}
             addToFavorites={this.addToFavorites}
+            editPanel={this.editPanel}
             removeFromFavorites={this.removeFromFavorites}
           />
         </div>
