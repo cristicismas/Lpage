@@ -1,8 +1,8 @@
-#app {
+body {
   min-height: 100vh;
   transition: all .2s;
 }
 
-#app * {
+body * {
   transition: all .2s;
 }
