@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ThemeContext } from '../contexts';
 import { THEMES } from '../constants/themes';
 import { URLS } from '../constants/urls';
+import areEqual from '../helpers/areEqual';
 import '../css/App.css';
 
 import Options from './Options';
@@ -13,13 +14,9 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const defaultTheme =
-      localStorage.getItem('theme') === THEMES.LIGHT
-        ? THEMES.LIGHT
-        : THEMES.DARK;
+    const defaultTheme = localStorage.getItem('theme') === THEMES.LIGHT ? THEMES.LIGHT : THEMES.DARK;
 
-    const engineSearchUrl =
-      URLS[localStorage.getItem('searchEngine')] || URLS.GOOGLE;
+    const engineSearchUrl = URLS[localStorage.getItem('searchEngine')] || URLS.GOOGLE;
 
     const favoriteWebsites = localStorage.getItem('favoriteWebsites')
       ? JSON.parse(localStorage.getItem('favoriteWebsites'))
@@ -44,13 +41,16 @@ class App extends Component {
 
     document.addEventListener('keydown', e => {
       if (e.keyCode === 17 || e.keyCode === 88) {
-        this.setState({
-          keysPressed: keysPressed.push(e.keyCode)
-        }, () => {
-          if (keysPressed.includes(17) && keysPressed.includes(88)) {
-            document.getElementById('search-bar').focus();
+        this.setState(
+          {
+            keysPressed: keysPressed.push(e.keyCode)
+          },
+          () => {
+            if (keysPressed.includes(17) && keysPressed.includes(88)) {
+              document.getElementById('search-bar').focus();
+            }
           }
-        });
+        );
       }
     });
 
@@ -68,42 +68,37 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { theme } = this.state;
+    const { theme, engineSearchUrl, favoriteWebsites } = this.state;
+    console.log(areEqual(prevState.engineSearchUrl, engineSearchUrl));
 
     if (prevState.theme !== theme) {
       document.body.style.background = theme === THEMES.DARK ? '#333' : '#eee';
+      localStorage.setItem('theme', theme);
+    } else if (!areEqual(prevState.engineSearchUrl, engineSearchUrl)) {
+      for (let searchEngine in URLS) {
+        if (URLS[searchEngine] === engineSearchUrl) {
+          localStorage.setItem('searchEngine', searchEngine);
+        }
+      }
+    } else if (!areEqual(prevState.favoriteWebsites, favoriteWebsites)) {
+      localStorage.setItem('favoriteWebsites', favoriteWebsites);
     }
   }
 
   toggleTheme() {
-    this.setState(
-      state => ({
-        theme: state.theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
-      }),
-      () => {
-        localStorage.setItem('theme', this.state.theme);
-      }
-    );
+    this.setState({
+      theme: this.state.theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
+    });
   }
 
   changeSearchEngine(newEngine) {
-    this.setState({ engineSearchUrl: URLS[newEngine] }, () => {
-      localStorage.setItem('searchEngine', newEngine);
-    });
+    this.setState({ engineSearchUrl: URLS[newEngine] });
   }
 
   addToFavorites(newFavorite) {
     const { favoriteWebsites } = this.state;
 
-    this.setState(
-      { favoriteWebsites: [...favoriteWebsites, newFavorite] },
-      () => {
-        localStorage.setItem(
-          'favoriteWebsites',
-          JSON.stringify([...favoriteWebsites, newFavorite])
-        );
-      }
-    );
+    this.setState({ favoriteWebsites: [...favoriteWebsites, newFavorite] });
   }
 
   editPanel(panel, index) {
@@ -111,15 +106,7 @@ class App extends Component {
 
     favoriteWebsites[index] = panel;
 
-    this.setState(
-      { favoriteWebsites },
-      () => {
-        localStorage.setItem(
-          'favoriteWebsites',
-          JSON.stringify(favoriteWebsites)
-        );
-      }
-    );
+    this.setState({ favoriteWebsites });
   }
 
   removeFromFavorites(index) {
@@ -127,15 +114,7 @@ class App extends Component {
 
     favoriteWebsites.splice(index, 1);
 
-    this.setState(
-      { favoriteWebsites },
-      () => {
-        localStorage.setItem(
-          'favoriteWebsites',
-          JSON.stringify(favoriteWebsites)
-        );
-      }
-    );
+    this.setState({ favoriteWebsites });
   }
 
   render() {
@@ -144,10 +123,7 @@ class App extends Component {
     return (
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <div id='app'>
-          <Options
-            changeSearchEngine={this.changeSearchEngine}
-            engineUrl={engineSearchUrl}
-          />
+          <Options changeSearchEngine={this.changeSearchEngine} engineUrl={engineSearchUrl} />
           <SearchBar searchUrl={engineSearchUrl} />
           <ThemeSwitch />
           <FavoriteWebsites
