@@ -7,6 +7,7 @@ import { ICONS } from '../constants/icons';
 
 import FormOverlay from './FormOverlay';
 import Icon from './Icon';
+import RemoveConfirmation from './RemoveConfirmation';
 
 const WebsiteLink = styled.div`
   background-image: ${props => `url(${props.img})`};
@@ -21,7 +22,8 @@ class WebsitePanel extends Component {
     super(props);
 
     this.state = {
-      showEditOverlay: false
+      showEditOverlay: false,
+      showRemoveConfirmation: false
     };
   }
 
@@ -33,9 +35,7 @@ class WebsitePanel extends Component {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
 
-    const { panelIndex } = this.props;
-
-    this.props.removeFromFavorites(panelIndex);
+    this.setState({ showRemoveConfirmation: true });
   }
 
   editPanel(e) {
@@ -46,7 +46,7 @@ class WebsitePanel extends Component {
   }
 
   render() {
-    const { showEditOverlay } = this.state;
+    const { showEditOverlay, showRemoveConfirmation } = this.state;
     const { title, url, img } = this.props.website;
     const { theme } = this.context;
 
@@ -86,6 +86,13 @@ class WebsitePanel extends Component {
             title={title}
             url={url}
             img={img}
+          />
+        ) : null}
+
+        {showRemoveConfirmation ? (
+          <RemoveConfirmation
+            closeOverlay={() => this.setState({ showRemoveConfirmation: false })}
+            handleRemove={() => this.props.removeFromFavorites(this.props.panelIndex)}
           />
         ) : null}
       </Fragment>
