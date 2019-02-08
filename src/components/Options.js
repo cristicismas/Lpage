@@ -33,7 +33,7 @@ class Options extends Component {
 
         <Menu id="menu" theme={theme}>
           <MenuItem className="menu-item" theme={theme}>
-            <SearchEngine changeSearchEngine={this.props.changeSearchEngine} engineUrl={engineUrl} />
+            <SearchEngine changeState={this.props.changeState} engineUrl={engineUrl} />
           </MenuItem>
         </Menu>
       </div>

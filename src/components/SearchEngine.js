@@ -20,7 +20,7 @@ class SearchEngine extends Component {
     const engineSelect = document.getElementById('search-engine-dropdown');
     const selectedEngine = engineSelect.options[engineSelect.selectedIndex].value;
 
-    this.props.changeSearchEngine(selectedEngine);
+    this.props.changeState('engineSearchUrl', URLS[selectedEngine]);
   }
 
   render() {

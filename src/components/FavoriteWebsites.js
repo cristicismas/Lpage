@@ -20,6 +20,14 @@ class FavoriteWebsites extends Component {
     this.state = {
       showFormOverlay: false
     };
+
+    this.handleForm = this.handleForm.bind(this);
+  }
+
+  handleForm(newFavorite) {
+    const { favoriteWebsites } = this.props;
+
+    this.props.changeState('favoriteWebsites', [...favoriteWebsites, newFavorite]);
   }
 
   render() {
@@ -31,8 +39,8 @@ class FavoriteWebsites extends Component {
       <WebsitePanel
         website={link}
         key={link + index}
-        removeFromFavorites={this.props.removeFromFavorites}
-        editPanel={this.props.editPanel}
+        favoriteWebsites={favoriteWebsites}
+        changeState={this.props.changeState}
         panelIndex={index}
       />
     ));
@@ -52,7 +60,7 @@ class FavoriteWebsites extends Component {
           <FormOverlay
             formTitle='New Favorite'
             ctaText='Add Website'
-            handleForm={this.props.addToFavorites}
+            handleForm={this.handleForm}
             theme={theme}
             closeOverlay={() =>
               this.setState({ showFormOverlay: false })

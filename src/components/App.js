@@ -29,11 +29,8 @@ class App extends Component {
       keysPressed: []
     };
 
+    this.changeState = this.changeState.bind(this);
     this.toggleTheme = this.toggleTheme.bind(this);
-    this.changeSearchEngine = this.changeSearchEngine.bind(this);
-    this.addToFavorites = this.addToFavorites.bind(this);
-    this.editPanel = this.editPanel.bind(this);
-    this.removeFromFavorites = this.removeFromFavorites.bind(this);
   }
 
   componentDidMount() {
@@ -69,20 +66,25 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { theme, engineSearchUrl, favoriteWebsites } = this.state;
-    console.log(areEqual(prevState.engineSearchUrl, engineSearchUrl));
 
     if (prevState.theme !== theme) {
       document.body.style.background = theme === THEMES.DARK ? '#333' : '#eee';
       localStorage.setItem('theme', theme);
-    } else if (!areEqual(prevState.engineSearchUrl, engineSearchUrl)) {
+    } else if (prevState.engineSearchUrl !== engineSearchUrl) {
       for (let searchEngine in URLS) {
         if (URLS[searchEngine] === engineSearchUrl) {
           localStorage.setItem('searchEngine', searchEngine);
         }
       }
     } else if (!areEqual(prevState.favoriteWebsites, favoriteWebsites)) {
-      localStorage.setItem('favoriteWebsites', favoriteWebsites);
+      localStorage.setItem('favoriteWebsites', JSON.stringify(favoriteWebsites));
     }
+  }
+
+  changeState(key, value) {
+    this.setState({
+      [key]: value
+    });
   }
 
   toggleTheme() {
@@ -91,46 +93,18 @@ class App extends Component {
     });
   }
 
-  changeSearchEngine(newEngine) {
-    this.setState({ engineSearchUrl: URLS[newEngine] });
-  }
-
-  addToFavorites(newFavorite) {
-    const { favoriteWebsites } = this.state;
-
-    this.setState({ favoriteWebsites: [...favoriteWebsites, newFavorite] });
-  }
-
-  editPanel(panel, index) {
-    let { favoriteWebsites } = this.state;
-
-    favoriteWebsites[index] = panel;
-
-    this.setState({ favoriteWebsites });
-  }
-
-  removeFromFavorites(index) {
-    let { favoriteWebsites } = this.state;
-
-    favoriteWebsites.splice(index, 1);
-
-    this.setState({ favoriteWebsites });
-  }
-
   render() {
     const { theme, engineSearchUrl, favoriteWebsites } = this.state;
 
     return (
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <div id='app'>
-          <Options changeSearchEngine={this.changeSearchEngine} engineUrl={engineSearchUrl} />
+          <Options changeState={this.changeState} engineUrl={engineSearchUrl} />
           <SearchBar searchUrl={engineSearchUrl} />
           <ThemeSwitch />
           <FavoriteWebsites
             favoriteWebsites={favoriteWebsites}
-            addToFavorites={this.addToFavorites}
-            editPanel={this.editPanel}
-            removeFromFavorites={this.removeFromFavorites}
+            changeState={this.changeState}
           />
         </div>
       </ThemeContext.Provider>

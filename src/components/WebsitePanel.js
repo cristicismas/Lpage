@@ -45,6 +45,24 @@ class WebsitePanel extends Component {
     this.setState({ showEditOverlay: true });
   }
 
+  handleEditForm(panel) {
+    const { panelIndex, favoriteWebsites } = this.props;
+
+    const favoriteWebsitesCopy = [...favoriteWebsites];
+    favoriteWebsitesCopy[panelIndex] = panel;
+
+    this.props.changeState('favoriteWebsites', favoriteWebsitesCopy);
+  }
+
+  handleRemoveConfirmation() {
+    const { panelIndex, favoriteWebsites } = this.props;
+
+    const favoriteWebsitesCopy = [...favoriteWebsites];
+    favoriteWebsitesCopy.splice(panelIndex, 1);
+
+    this.props.changeState('favoriteWebsites', favoriteWebsitesCopy);
+  }
+
   render() {
     const { showEditOverlay, showRemoveConfirmation } = this.state;
     const { title, url, img } = this.props.website;
@@ -80,7 +98,7 @@ class WebsitePanel extends Component {
           <FormOverlay
             formTitle='Edit Favorite'
             ctaText='Submit'
-            handleForm={panel => this.props.editPanel(panel, this.props.panelIndex)}
+            handleForm={panel => this.handleEditForm(panel)}
             theme={theme}
             closeOverlay={() => this.setState({ showEditOverlay: false })}
             title={title}
@@ -92,7 +110,7 @@ class WebsitePanel extends Component {
         {showRemoveConfirmation ? (
           <RemoveConfirmation
             closeOverlay={() => this.setState({ showRemoveConfirmation: false })}
-            handleRemove={() => this.props.removeFromFavorites(this.props.panelIndex)}
+            handleRemove={() => this.handleRemoveConfirmation()}
           />
         ) : null}
       </Fragment>
