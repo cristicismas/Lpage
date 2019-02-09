@@ -1,8 +1,0 @@
-body {
-  min-height: 100vh;
-  transition: all .2s;
-}
-
-body * {
-  transition: all .2s;
-}
