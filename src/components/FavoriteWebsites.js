@@ -32,13 +32,14 @@ class FavoriteWebsites extends Component {
 
   render() {
     const { showFormOverlay } = this.state;
-    const { favoriteWebsites } = this.props;
+    const { favoriteWebsites, panelSize } = this.props;
     const { theme } = this.context;
 
     const panels = favoriteWebsites.map((link, index) => (
       <WebsitePanel
         website={link}
         key={link + index}
+        panelSize={panelSize}
         favoriteWebsites={favoriteWebsites}
         changeState={this.props.changeState}
         panelIndex={index}

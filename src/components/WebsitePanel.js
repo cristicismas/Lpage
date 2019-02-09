@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { THEMES } from '../constants/themes';
 import { ThemeContext } from '../contexts';
-import '../css/WebsitePanel.css';
 import { ICONS } from '../constants/icons';
+import '../css/WebsitePanel.css';
 
 import FormOverlay from './FormOverlay';
 import Icon from './Icon';
@@ -12,6 +12,10 @@ import RemoveConfirmation from './RemoveConfirmation';
 const WebsiteLink = styled.div`
   background-image: ${props => `url(${props.img})`};
   border: 1px solid ${props => (props.theme === THEMES.DARK ? '#eee' : '#333')};
+  min-width: ${props => props.panelSize}px;
+  max-width: ${props => props.panelSize}px;
+  min-height: ${props => props.panelSize / 2}px;
+  max-height: ${props => props.panelSize / 2}px;
   cursor: pointer;
   color: #eee;
   text-decoration: none;
@@ -80,6 +84,7 @@ class WebsitePanel extends Component {
           className='panel'
           href={formattedUrl}
           target='_blank'
+          panelSize={this.props.panelSize}
           img={img}
           theme={theme}
           onClick={() => this.openLink(formattedUrl)}

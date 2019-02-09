@@ -22,10 +22,13 @@ class App extends Component {
       ? JSON.parse(localStorage.getItem('favoriteWebsites'))
       : [];
 
+    const panelSize = localStorage.getItem('panelSize') || 400;
+
     this.state = {
       theme: defaultTheme,
-      engineSearchUrl: engineSearchUrl,
-      favoriteWebsites: favoriteWebsites,
+      engineSearchUrl,
+      favoriteWebsites,
+      panelSize,
       keysPressed: []
     };
 
@@ -65,7 +68,7 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { theme, engineSearchUrl, favoriteWebsites } = this.state;
+    const { theme, engineSearchUrl, favoriteWebsites, panelSize } = this.state;
 
     if (prevState.theme !== theme) {
       document.body.style.background = theme === THEMES.DARK ? '#333' : '#eee';
@@ -78,10 +81,13 @@ class App extends Component {
       }
     } else if (!areEqual(prevState.favoriteWebsites, favoriteWebsites)) {
       localStorage.setItem('favoriteWebsites', JSON.stringify(favoriteWebsites));
+    } else if (prevState.panelSize !== panelSize) {
+      localStorage.setItem('panelSize', panelSize);
     }
   }
 
   changeState(key, value) {
+    console.log(value);
     this.setState({
       [key]: value
     });
@@ -94,17 +100,18 @@ class App extends Component {
   }
 
   render() {
-    const { theme, engineSearchUrl, favoriteWebsites } = this.state;
+    const { theme, engineSearchUrl, favoriteWebsites, panelSize } = this.state;
 
     return (
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <div id='app'>
-          <Options changeState={this.changeState} engineUrl={engineSearchUrl} />
+          <Options changeState={this.changeState} panelSize={panelSize} engineUrl={engineSearchUrl} />
           <SearchBar searchUrl={engineSearchUrl} />
           <ThemeSwitch />
           <FavoriteWebsites
             favoriteWebsites={favoriteWebsites}
             changeState={this.changeState}
+            panelSize={panelSize}
           />
         </div>
       </ThemeContext.Provider>

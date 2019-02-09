@@ -5,6 +5,7 @@ import { ThemeContext } from '../contexts';
 import '../css/Options.css';
 
 import SearchEngine from './SearchEngine';
+import PanelSizeRange from './PanelSizeRange';
 
 const MenuItem = styled.div`
   color: ${props => (props.theme === THEMES.DARK ? '#eee' : '#333')};
@@ -21,7 +22,7 @@ const Menu = styled.ul`
 class Options extends Component {
   render() {
     const { theme } = this.context;
-    const { engineUrl } = this.props;
+    const { engineUrl, panelSize } = this.props;
 
     return (
       <div id="options-menu">
@@ -34,6 +35,9 @@ class Options extends Component {
         <Menu id="menu" theme={theme}>
           <MenuItem className="menu-item" theme={theme}>
             <SearchEngine changeState={this.props.changeState} engineUrl={engineUrl} />
+          </MenuItem>
+          <MenuItem className="menu-item" theme={theme}>
+            <PanelSizeRange changeState={this.props.changeState} panelSize={panelSize} />
           </MenuItem>
         </Menu>
       </div>
