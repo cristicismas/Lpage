@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ThemeContext } from '../contexts';
 import { THEMES } from '../constants/themes';
 import { URLS } from '../constants/urls';
+import { KEYS } from '../constants/keys';
 import areEqual from '../helpers/areEqual';
 import '../css/App.css';
 
@@ -46,13 +47,13 @@ class App extends Component {
     const { theme, keysPressed } = this.state;
 
     document.addEventListener('keydown', e => {
-      if (e.keyCode === 17 || e.keyCode === 88) {
+      if (e.keyCode === KEYS.CTRL || e.keyCode === KEYS.X) {
         this.setState(
           {
             keysPressed: keysPressed.push(e.keyCode)
           },
           () => {
-            if (keysPressed.includes(17) && keysPressed.includes(88)) {
+            if (keysPressed.includes(KEYS.CTRL) && keysPressed.includes(KEYS.X)) {
               document.getElementById('search-bar').focus();
             }
           }
@@ -61,7 +62,7 @@ class App extends Component {
     });
 
     document.addEventListener('keyup', e => {
-      if (e.keyCode === 17 || e.keyCode === 88) {
+      if (e.keyCode === KEYS.CTRL || e.keyCode === KEYS.X) {
         const keyIndex = keysPressed.indexOf(e.keyCode);
 
         this.setState({
