@@ -89,13 +89,16 @@ class WebsitePanel extends Component {
           theme={theme}
           onClick={() => this.openLink(formattedUrl)}
         >
-          <div className='buttons'>
-            <button className='edit-panel' onClick={e => this.editPanel(e)}>
-              <Icon icon={ICONS.EDIT} color='#f5f5f5' />
-            </button>
-            <button className='remove-panel' onClick={e => this.removePanel(e)}>
-              &#x2715;
-            </button>
+          <div className='alpha-overlay'>
+            <h4 className='panel-title'>{title}</h4>
+            <div className='buttons'>
+              <button className='edit-panel' onClick={e => this.editPanel(e)}>
+                <Icon icon={ICONS.EDIT} color='#f5f5f5' />
+              </button>
+              <button className='remove-panel' onClick={e => this.removePanel(e)}>
+                &#x2715;
+              </button>
+            </div>
           </div>
         </WebsiteLink>
 
