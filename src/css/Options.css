@@ -80,3 +80,13 @@
 #options-menu #options-toggle:checked ~ ul {
   transform: none;
 }
+
+@media only screen and (max-width: 500px) {
+  #options-menu #menu {
+    width: 255px;
+  }
+
+  #options-menu .menu-item {
+    font-size: 17px;
+  }
+}

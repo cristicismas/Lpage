@@ -30,3 +30,9 @@
 #favorites .add-to-favorites-btn:hover {
   opacity: 1;
 }
+
+@media only screen and (max-width: 700px) {
+  #favorites {
+    top: 180px;
+  }
+}
