@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { ThemeContext } from '../contexts';
 import { THEMES } from '../constants/themes';
 import { URLS } from '../constants/urls';
@@ -9,6 +10,11 @@ import Options from './Options';
 import SearchBar from './SearchBar';
 import ThemeSwitch from './ThemeSwitch';
 import FavoriteWebsites from './FavoriteWebsites';
+
+const AppTitle = styled.h1`
+  text-align: center;
+  color: ${props => props.theme === THEMES.DARK ? '#f5f5f5' : '#333'};
+`;
 
 class App extends Component {
   constructor(props) {
@@ -106,6 +112,7 @@ class App extends Component {
       <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
         <div id='app'>
           <Options changeState={this.changeState} panelSize={panelSize} engineUrl={engineSearchUrl} />
+          <AppTitle theme={theme}>Welcome</AppTitle>
           <SearchBar searchUrl={engineSearchUrl} />
           <ThemeSwitch />
           <FavoriteWebsites
