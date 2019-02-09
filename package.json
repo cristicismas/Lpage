@@ -8,6 +8,7 @@
     "react-scripts": "2.1.1",
     "styled-components": "^4.1.2"
   },
+  "homepage": "https://cristicismas.github.io/Lpage",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
