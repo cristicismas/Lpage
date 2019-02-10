@@ -90,3 +90,19 @@
     font-size: 17px;
   }
 }
+
+#options-menu #menu .menu-item #export-btn,
+#options-menu #menu .menu-item #import-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+#options-menu #menu .menu-item #import-file-input {
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}

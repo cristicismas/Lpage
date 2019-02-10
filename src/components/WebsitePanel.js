@@ -65,6 +65,7 @@ class WebsitePanel extends Component {
     favoriteWebsitesCopy.splice(panelIndex, 1);
 
     this.props.changeState('favoriteWebsites', favoriteWebsitesCopy);
+    this.setState({ showRemoveConfirmation: false });
   }
 
   render() {
