@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 export class ImportFavorites extends Component {
   importFavorites(file) {
@@ -36,15 +36,17 @@ export class ImportFavorites extends Component {
 
   render() {
     return (
-      <button id='import-btn' onClick={() => this.chooseFile()}>
-        Import Favorites &#x21d3;
+      <Fragment>
+        <button id='import-btn' onClick={() => this.chooseFile()}>
+          Import Favorites &#x21d3;
+        </button>
         <input
           id='import-file-input'
           type='file'
           accept='text/plain'
           onChange={() => this.importFavorites()}
         />
-      </button>
+      </Fragment>
     );
   }
 }
