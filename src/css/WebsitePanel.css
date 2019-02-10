@@ -76,3 +76,9 @@
 .panel .edit-panel:hover svg path {
   fill: #333 !important;
 }
+
+@media only screen and (max-width: 810px) {
+  .panel .alpha-overlay {
+    opacity: .8;
+  }
+}
