@@ -26,14 +26,7 @@ class SearchBar extends Component {
     const query = searchBar.value;
 
     // Open query in a new window.
-    const queryResults = window.open(searchUrl + query);
-
-    // Focus the new window
-    if (queryResults) {
-      queryResults.focus();
-    } else {
-      alert('Please allow popups for this website.');
-    }
+    window.location.href = searchUrl + query;
 
     searchBar.value = "";
   }
