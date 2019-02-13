@@ -26,7 +26,7 @@ class SearchBar extends Component {
     const query = searchBar.value;
 
     // Open query in a new window.
-    const queryResults = window.open(searchUrl + query, '_blank');
+    const queryResults = window.open(searchUrl + query);
 
     // Focus the new window
     if (queryResults) {
